@@ -29,8 +29,14 @@ import java.util.Random;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseMotionListener;
 
-class XAndOTile extends JPanel implements MouseListener {
+class XAndOTile extends JPanel implements MouseListener  {
     private int red, green, blue;
     private String letter;
     private int randomShape;
@@ -145,7 +151,7 @@ class XAndOTile extends JPanel implements MouseListener {
 
 class MosaicFrame extends JFrame implements ActionListener{
     private ArrayList<XAndOTile> tileList;
-    
+    private MosaicFrame myMosaicFrame;
 
     public MosaicFrame() {
         
@@ -172,6 +178,43 @@ class MosaicFrame extends JFrame implements ActionListener{
             xAndOPanel.add(tile);
             tileList.add(tile);
         }
+
+        // Create menu bar and menus. 
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu fileMenu = new JMenu("File");
+        fileMenu.setMnemonic(KeyEvent.VK_F);
+        menuBar.add(fileMenu);
+
+        JMenuItem openMenuItem = new JMenuItem("Open", KeyEvent.VK_O);
+        fileMenu.add(openMenuItem);
+
+        JMenuItem saveMenuItem = new JMenuItem("Save", KeyEvent.VK_S);
+        fileMenu.add(saveMenuItem);
+        fileMenu.addSeparator();
+
+        JMenuItem exitMenuItem = new JMenuItem("Exit", KeyEvent.VK_X);
+        exitMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        fileMenu.add(exitMenuItem);
+        
+        JMenu editMenu = new JMenu("Edit");
+        editMenu.setMnemonic(KeyEvent.VK_E);
+        menuBar.add(editMenu);
+        
+        JMenuItem clearMenuItem = new JMenuItem("Clear", KeyEvent.VK_C);
+        clearMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                myMosaicFrame.clearFaces();
+                repaint();
+            }
+        });        
+        editMenu.add(clearMenuItem);
+        add(menuBar, BorderLayout.NORTH);
+
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -181,6 +224,11 @@ class MosaicFrame extends JFrame implements ActionListener{
         System.out.println("\nMosaicPlus Repainting...\n");
         repaint();
     }
+    public void clearFaces(){
+       tileList.clear();
+    }
+
+
 }
 
 
