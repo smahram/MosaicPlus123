@@ -182,6 +182,19 @@ class MosaicFrame extends JFrame implements ActionListener{
         // Create menu bar and menus. 
         JMenuBar menuBar = new JMenuBar();
 
+        JMenu shapeMenu = new JMenu("Shape");
+        shapeMenu.setMnemonic(KeyEvent.VK_F);
+        menuBar.add(shapeMenu);
+
+        JMenuItem ovalMenuItem = new JMenuItem("Oval", KeyEvent.VK_O);
+        shapeMenu.add(ovalMenuItem);
+
+        JMenuItem squareMenuItem = new JMenuItem("Square", KeyEvent.VK_O);
+        shapeMenu.add(squareMenuItem);
+
+        JMenuItem randomMenuItem = new JMenuItem("Random", KeyEvent.VK_O);
+        shapeMenu.add(randomMenuItem);
+
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
         menuBar.add(fileMenu);
