@@ -194,25 +194,6 @@ class MosaicFrame extends JFrame implements ActionListener{
 
         JMenuItem randomMenuItem = new JMenuItem("Random", KeyEvent.VK_O);
         shapeMenu.add(randomMenuItem);
-
-        JMenu fileMenu = new JMenu("File");
-        fileMenu.setMnemonic(KeyEvent.VK_F);
-        menuBar.add(fileMenu);
-
-        JMenuItem openMenuItem = new JMenuItem("Open", KeyEvent.VK_O);
-        fileMenu.add(openMenuItem);
-
-        JMenuItem saveMenuItem = new JMenuItem("Save", KeyEvent.VK_S);
-        fileMenu.add(saveMenuItem);
-        fileMenu.addSeparator();
-
-        JMenuItem exitMenuItem = new JMenuItem("Exit", KeyEvent.VK_X);
-        exitMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-        fileMenu.add(exitMenuItem);
         
         JMenu editMenu = new JMenu("Edit");
         editMenu.setMnemonic(KeyEvent.VK_E);
@@ -227,6 +208,14 @@ class MosaicFrame extends JFrame implements ActionListener{
         });        
         editMenu.add(clearMenuItem);
         add(menuBar, BorderLayout.NORTH);
+
+         JMenuItem exitMenuItem = new JMenuItem("Exit", KeyEvent.VK_X);
+        exitMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        menuBar.add(exitMenuItem);
 
     }
 
