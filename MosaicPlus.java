@@ -36,14 +36,14 @@ import javax.swing.JPanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseMotionListener;
 
-class XAndOTile extends JPanel implements MouseListener  {
-    private int red, green, blue;
+class myTile extends JPanel implements MouseListener  {
+    public int red, green, blue;
     private String letter;
-    private int randomShape;
+    public int randomShape;
     private Face myFace;
     private boolean drawFace;
 
-    XAndOTile() {
+    myTile() {
         super();
         SetRandomValue();
 
@@ -102,11 +102,11 @@ class XAndOTile extends JPanel implements MouseListener  {
             int panelWidth = getWidth();
             int panelHeight = getHeight();
 
-            if (randomShape == 1) {
+            if (randomShape == 1) { // oval
                 g.setColor(new Color(red,green,blue));
                 g.fillOval(10, 10, panelWidth-15, panelHeight-10);
             }
-            else {
+            else { // rectangle
             g.setColor(new Color(red,green,blue));
             g.fillRect(10, 10, panelWidth, panelHeight);
             }
@@ -150,10 +150,12 @@ class XAndOTile extends JPanel implements MouseListener  {
 
 
 class MosaicFrame extends JFrame implements ActionListener{
-    private ArrayList<XAndOTile> tileList;
+    private ArrayList<myTile> tileList;
     private MosaicFrame myMosaicFrame;
+    myTile tile = new myTile(); 
 
-    public MosaicFrame() {
+
+    public MosaicFrame(int layoutNum) {
         
         setBounds(40,40,900,700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -168,68 +170,208 @@ class MosaicFrame extends JFrame implements ActionListener{
         buttonPanel.add(randomizeButton);
         randomizeButton.addActionListener(this);
 
-        JPanel xAndOPanel = new JPanel();
-        contentPane.add(xAndOPanel, BorderLayout.CENTER);
-        xAndOPanel.setLayout(new GridLayout(10,10));
+        JPanel myPanel = new JPanel();
+        contentPane.add(myPanel, BorderLayout.CENTER);
 
-        tileList = new ArrayList<XAndOTile>();
-        for(int i = 0; i < 100; i++) {
-            XAndOTile tile = new XAndOTile();
-            xAndOPanel.add(tile);
-            tileList.add(tile);
+
+        if (layoutNum != 0) {
+            myPanel.setLayout(new GridLayout(layoutNum,layoutNum));
+
+            tileList = new ArrayList<myTile>();
+            for(int i = 0; i < layoutNum*layoutNum; i++) {
+                myTile tile = new myTile();
+                myPanel.add(tile);
+                tileList.add(tile);
+            }
+        } else {
+            myPanel.setLayout(new GridLayout(10,10));
+
+            tileList = new ArrayList<myTile>();
+            for(int i = 0; i < 100; i++) {
+                myTile tile = new myTile();
+                myPanel.add(tile);
+                tileList.add(tile);
+            }
         }
 
         // Create menu bar and menus. 
         JMenuBar menuBar = new JMenuBar();
+        add(menuBar, BorderLayout.NORTH); 
 
-        JMenu shapeMenu = new JMenu("Shape");
-        shapeMenu.setMnemonic(KeyEvent.VK_F);
-        menuBar.add(shapeMenu);
 
-        JMenuItem ovalMenuItem = new JMenuItem("Oval", KeyEvent.VK_O);
-        shapeMenu.add(ovalMenuItem);
-
-        JMenuItem squareMenuItem = new JMenuItem("Square", KeyEvent.VK_O);
-        shapeMenu.add(squareMenuItem);
-
-        JMenuItem randomMenuItem = new JMenuItem("Random", KeyEvent.VK_O);
-        shapeMenu.add(randomMenuItem);
+        JMenu fileMenu = new JMenu("File"); // create File tab
+        fileMenu.setMnemonic(KeyEvent.VK_E);
+        menuBar.add(fileMenu); // add File tab
         
-        JMenu editMenu = new JMenu("Edit");
-        editMenu.setMnemonic(KeyEvent.VK_E);
-        menuBar.add(editMenu);
+        JMenuItem newMenuItem = new JMenuItem("New", KeyEvent.VK_C); // create New selection
+        newMenuItem.addActionListener(this); // if clicked then random
+        fileMenu.add(newMenuItem); // add new selector
         
-        JMenuItem clearMenuItem = new JMenuItem("Clear", KeyEvent.VK_C);
-        clearMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                myMosaicFrame.clearFaces();
-                repaint();
-            }
-        });        
-        editMenu.add(clearMenuItem);
-        add(menuBar, BorderLayout.NORTH);
 
-         JMenuItem exitMenuItem = new JMenuItem("Exit", KeyEvent.VK_X);
+        JMenuItem exitMenuItem = new JMenuItem("Exit", KeyEvent.VK_X); // create Exit tab
         exitMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
-        menuBar.add(exitMenuItem);
+        fileMenu.add(exitMenuItem);
+        
+        JMenu colorMenu = new JMenu("Color"); // create Color tab
+        colorMenu.setMnemonic(KeyEvent.VK_E);
+        menuBar.add(colorMenu); // add Color tab
+         
+        JMenuItem redMenuItem = new JMenuItem("Red", KeyEvent.VK_C); // create New selection
+        newMenuItem.addActionListener(this); // if clicked then random
+        colorMenu.add(newMenuItem); // add new selector
+        redMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                tile.red = GetNumberBetween(0,255);; 
+
+                MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
+                myMosaicFrame.setVisible(true);
+            }
+        });
+        colorMenu.add(redMenuItem);
+
+
+        JMenu shapeMenu = new JMenu("Shape"); // create ShapePicker Tab
+        shapeMenu.setMnemonic(KeyEvent.VK_F);
+        menuBar.add(shapeMenu); // add ShapePicker tab
+
+        JMenuItem ovalMenuItem = new JMenuItem("Oval", KeyEvent.VK_O); // create Oval selection
+        shapeMenu.add(ovalMenuItem); // add Oval selection
+        ovalMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(tile.randomShape == 0){
+                    
+                    dispose();
+                    MosaicFrame myMosaicFrame = new MosaicFrame(tile.randomShape);
+                    myMosaicFrame.setVisible(true);
+                }
+               
+            }
+        });
+        ovalMenuItem.add(ovalMenuItem);
+
+        JMenuItem squareMenuItem = new JMenuItem("Square", KeyEvent.VK_O); // create Square selection
+        shapeMenu.add(squareMenuItem); // add Square selection
+
+        JMenuItem randomMenuItem = new JMenuItem("Random", KeyEvent.VK_O); // creates Random selection
+        shapeMenu.add(randomMenuItem); // add Random selection
+
+
+        JMenu colorMenu = new JMenu("Color"); // create ColorPicker Tab
+        colorMenu.setMnemonic(KeyEvent.VK_F);
+        menuBar.add(colorMenu); // add ColorPicker tab
+
+
+        JMenu layoutMenu = new JMenu("Layout"); // create LayoutPicker Tab
+        layoutMenu.setMnemonic(KeyEvent.VK_F);
+        menuBar.add(layoutMenu); // add layoutPicker tab
+
+        JMenuItem layout6MenuItem = new JMenuItem("6", KeyEvent.VK_O); // create layout 6 selection
+        layoutMenu.add(layout6MenuItem); // add layout 6 selection
+        layout6MenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int layoutNum = 6;
+                
+                dispose();
+                MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
+                myMosaicFrame.setVisible(true);
+            }
+        });
+        layoutMenu.add(layout6MenuItem);
+
+        JMenuItem layout7MenuItem = new JMenuItem("7", KeyEvent.VK_O); // create layout 7 selection
+        layoutMenu.add(layout7MenuItem); // add layout 7 selection
+        layout7MenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int layoutNum = 7;
+                
+                dispose();
+                MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
+                myMosaicFrame.setVisible(true);
+            }
+        });
+        layoutMenu.add(layout7MenuItem);
+
+        JMenuItem layout8MenuItem = new JMenuItem("8", KeyEvent.VK_O); // create layout 8 selection
+        layoutMenu.add(layout8MenuItem); // add layout 8 selection
+        layout8MenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int layoutNum = 8;
+                
+                dispose();
+                MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
+                myMosaicFrame.setVisible(true);
+            }
+        });
+        layoutMenu.add(layout8MenuItem);
+
+        JMenuItem layout9MenuItem = new JMenuItem("9", KeyEvent.VK_O); // create layout 9 selection
+        layoutMenu.add(layout9MenuItem); // add layout 9 selection
+        layout9MenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int layoutNum = 9;
+                
+                dispose();
+                MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
+                myMosaicFrame.setVisible(true);
+            }
+        });
+        layoutMenu.add(layout9MenuItem);
+
+        JMenuItem layout10MenuItem = new JMenuItem("10", KeyEvent.VK_O); // create layout 10 selection
+        layoutMenu.add(layout10MenuItem); // add layout 10 selection
+        layout10MenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int layoutNum = 10;
+                
+                dispose();
+                MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
+                myMosaicFrame.setVisible(true);
+            }
+        });
+        layoutMenu.add(layout10MenuItem);
+
+        JMenuItem layout11MenuItem = new JMenuItem("11", KeyEvent.VK_O); // create layout 11 selection
+        layoutMenu.add(layout11MenuItem); // add layout 11 selection
+        layout11MenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int layoutNum = 11;
+                
+                dispose();
+                MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
+                myMosaicFrame.setVisible(true);
+            }
+        });
+        layoutMenu.add(layout11MenuItem);
+
+        JMenuItem layout12MenuItem = new JMenuItem("12", KeyEvent.VK_O); // create layout 12 selection
+        layoutMenu.add(layout12MenuItem); // add layout 12 selection
+        layout12MenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int layoutNum = 12;
+                
+                dispose();
+                MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
+                myMosaicFrame.setVisible(true);
+            }
+        });
+        layoutMenu.add(layout12MenuItem);
+        
+
 
     }
 
     public void actionPerformed(ActionEvent e) {
-        for (XAndOTile tile : tileList) {
+        for (myTile tile : tileList) {
             tile.SetRandomValue();
         }
         System.out.println("\nMosaicPlus Repainting...\n");
         repaint();
     }
-    public void clearFaces(){
-       tileList.clear();
-    }
-
 
 }
 
@@ -239,7 +381,8 @@ public class MosaicPlus {
     public static void main (String[] args) {
         System.out.println("\nMosaicPlus Starting...\n");
 
-        MosaicFrame myMosaicFrame = new MosaicFrame();
+        int layoutNum = 0;
+        MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
         myMosaicFrame.setVisible(true);
     }
 }
