@@ -222,18 +222,7 @@ class MosaicFrame extends JFrame implements ActionListener{
          
         JMenuItem redMenuItem = new JMenuItem("Red", KeyEvent.VK_C); // create New selection
         newMenuItem.addActionListener(this); // if clicked then random
-        colorMenu.add(newMenuItem); // add new selector
-        redMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                
-                tile.red = GetNumberBetween(0,255);; 
-
-                MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
-                myMosaicFrame.setVisible(true);
-            }
-        });
         colorMenu.add(redMenuItem);
-
 
         JMenu shapeMenu = new JMenu("Shape"); // create ShapePicker Tab
         shapeMenu.setMnemonic(KeyEvent.VK_F);
@@ -241,17 +230,17 @@ class MosaicFrame extends JFrame implements ActionListener{
 
         JMenuItem ovalMenuItem = new JMenuItem("Oval", KeyEvent.VK_O); // create Oval selection
         shapeMenu.add(ovalMenuItem); // add Oval selection
-        ovalMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(tile.randomShape == 0){
+        // ovalMenuItem.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         if(tile.randomShape == 0){
                     
-                    dispose();
-                    MosaicFrame myMosaicFrame = new MosaicFrame(tile.randomShape);
-                    myMosaicFrame.setVisible(true);
-                }
+        //             dispose();
+        //             MosaicFrame myMosaicFrame = new MosaicFrame(tile.randomShape);
+        //             myMosaicFrame.setVisible(true);
+        //         }
                
-            }
-        });
+        //     }
+        // });
         ovalMenuItem.add(ovalMenuItem);
 
         JMenuItem squareMenuItem = new JMenuItem("Square", KeyEvent.VK_O); // create Square selection
@@ -259,12 +248,6 @@ class MosaicFrame extends JFrame implements ActionListener{
 
         JMenuItem randomMenuItem = new JMenuItem("Random", KeyEvent.VK_O); // creates Random selection
         shapeMenu.add(randomMenuItem); // add Random selection
-
-
-        JMenu colorMenu = new JMenu("Color"); // create ColorPicker Tab
-        colorMenu.setMnemonic(KeyEvent.VK_F);
-        menuBar.add(colorMenu); // add ColorPicker tab
-
 
         JMenu layoutMenu = new JMenu("Layout"); // create LayoutPicker Tab
         layoutMenu.setMnemonic(KeyEvent.VK_F);
