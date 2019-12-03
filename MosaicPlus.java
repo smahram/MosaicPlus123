@@ -180,7 +180,7 @@ class myTile extends JPanel implements MouseListener  {
     public void mouseClicked(MouseEvent e) {
         System.out.println("mouseClicked");
         drawFace = true;
-        MosaicFrame.play2(); 
+        MosaicFrame.play2(); //Plays sound
         repaint();
     }
     
@@ -447,18 +447,18 @@ class MosaicFrame extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         for (myTile tile : tileList) {
             tile.SetRandomValue();
-            MosaicFrame.play();
         }
         System.out.println("\nMosaicPlus Repainting...\n");
+        play(); //Plays sound
         repaint();
     }
 
-    public static void play(){
+    public static void play(){//Sound for clicking Randomize button
             try
             {
 
                 Clip clip = AudioSystem.getClip();
-                clip.open(AudioSystem.getAudioInputStream(new File("C:\\Sound\\flyby.wav")));
+                clip.open(AudioSystem.getAudioInputStream(new File("C:\\Sound\\Swoosh.wav")));
                 clip.start();
             }
             catch (Exception exc)
@@ -468,7 +468,7 @@ class MosaicFrame extends JFrame implements ActionListener{
     }
 
     
-    public static void play2(){
+    public static void play2(){//Sound for clicking tiles
             try
             {
 
