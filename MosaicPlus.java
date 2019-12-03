@@ -457,7 +457,7 @@ class MosaicFrame extends JFrame implements ActionListener{
             try
             {
 
-                Clip clip = AudioSystem.getClip();
+                Clip clip = AudioSystem.getClip(); //Entry point to audio system resources
                 clip.open(AudioSystem.getAudioInputStream(new File("C:\\Sound\\Swoosh.wav")));
                 clip.start();
             }
