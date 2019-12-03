@@ -36,10 +36,13 @@ import javax.swing.JPanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseMotionListener;
 
+import java.io.*;
+import javax.sound.sampled.*;
+
 class myTile extends JPanel implements MouseListener  {
-    public int red, green, blue;
+    private int red, green, blue;
     private String letter;
-    public int randomShape;
+    private int randomShape;
     private Face myFace;
     private boolean drawFace;
 
@@ -53,11 +56,43 @@ class myTile extends JPanel implements MouseListener  {
         myFace = new Face(16,10,40,40);     
     }
 
+        final public void SetAllOval() {
+            randomShape = 1;
+    }
+
+        final public void SetAllRectangle() {
+            randomShape = 0;
+    }
+
     final public void SetRandomValue() {
         red = GetNumberBetween(0,255);
         green = GetNumberBetween(0,255);
         blue = GetNumberBetween(0,255);
+        setLetters();
+    }
 
+    final public void SetRedColor() {
+        red = GetNumberBetween(0,255);
+        green = GetNumberBetween(0,0);
+        blue = GetNumberBetween(0,0);
+        setLetters();
+    }
+
+    final public void SetGreenColor() {
+        red = GetNumberBetween(0,0);
+        green = GetNumberBetween(0,255);
+        blue = GetNumberBetween(0,0);
+        setLetters();
+    }
+
+    final public void SetBlueColor() {
+        red = GetNumberBetween(0,0);
+        green = GetNumberBetween(0,0);
+        blue = GetNumberBetween(0,255);
+        setLetters();
+    }
+
+    final public void setLetters() {
         ArrayList<String> letters = new ArrayList<>();
         letters.add("A");
         letters.add("B");
@@ -85,10 +120,19 @@ class myTile extends JPanel implements MouseListener  {
         letters.add("X");
         letters.add("Y");
         letters.add("Z");
+        letters.add("0");
+        letters.add("1");
+        letters.add("2");
+        letters.add("3");
+        letters.add("4");
+        letters.add("5");
+        letters.add("7");
+        letters.add("8");
+        letters.add("9");
 
-        int randomLetter = GetNumberBetween(0,25);
+        int randomLetter = GetNumberBetween(0,34);
         letter = letters.get(randomLetter);
-    }
+        }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -136,6 +180,7 @@ class myTile extends JPanel implements MouseListener  {
     public void mouseClicked(MouseEvent e) {
         System.out.println("mouseClicked");
         drawFace = true;
+        MosaicFrame.play2(); 
         repaint();
     }
     
@@ -152,7 +197,7 @@ class myTile extends JPanel implements MouseListener  {
 class MosaicFrame extends JFrame implements ActionListener{
     private ArrayList<myTile> tileList;
     private MosaicFrame myMosaicFrame;
-    myTile tile = new myTile(); 
+
 
 
     public MosaicFrame(int layoutNum) {
@@ -204,9 +249,17 @@ class MosaicFrame extends JFrame implements ActionListener{
         menuBar.add(fileMenu); // add File tab
         
         JMenuItem newMenuItem = new JMenuItem("New", KeyEvent.VK_C); // create New selection
-        newMenuItem.addActionListener(this); // if clicked then random
-        fileMenu.add(newMenuItem); // add new selector
-        
+        fileMenu.add(newMenuItem); // add new selection
+        newMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int layoutNum = 0;
+
+                dispose();
+                MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
+                myMosaicFrame.setVisible(true);
+            }
+        });
+        fileMenu.add(newMenuItem);
 
         JMenuItem exitMenuItem = new JMenuItem("Exit", KeyEvent.VK_X); // create Exit tab
         exitMenuItem.addActionListener(new ActionListener() {
@@ -216,13 +269,6 @@ class MosaicFrame extends JFrame implements ActionListener{
         });
         fileMenu.add(exitMenuItem);
         
-        JMenu colorMenu = new JMenu("Color"); // create Color tab
-        colorMenu.setMnemonic(KeyEvent.VK_E);
-        menuBar.add(colorMenu); // add Color tab
-         
-        JMenuItem redMenuItem = new JMenuItem("Red", KeyEvent.VK_C); // create New selection
-        newMenuItem.addActionListener(this); // if clicked then random
-        colorMenu.add(redMenuItem);
 
         JMenu shapeMenu = new JMenu("Shape"); // create ShapePicker Tab
         shapeMenu.setMnemonic(KeyEvent.VK_F);
@@ -230,24 +276,74 @@ class MosaicFrame extends JFrame implements ActionListener{
 
         JMenuItem ovalMenuItem = new JMenuItem("Oval", KeyEvent.VK_O); // create Oval selection
         shapeMenu.add(ovalMenuItem); // add Oval selection
-        // ovalMenuItem.addActionListener(new ActionListener() {
-        //     public void actionPerformed(ActionEvent e) {
-        //         if(tile.randomShape == 0){
-                    
-        //             dispose();
-        //             MosaicFrame myMosaicFrame = new MosaicFrame(tile.randomShape);
-        //             myMosaicFrame.setVisible(true);
-        //         }
-               
-        //     }
-        // });
-        ovalMenuItem.add(ovalMenuItem);
+        ovalMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (myTile tile : tileList) {
+                    tile.SetAllOval(); // sets tiles to oval
+                }
+                System.out.println("\nMosaicPlus Repainting...\n");
+                repaint(); // repainting
+            }
+        });
+        shapeMenu.add(ovalMenuItem);
 
-        JMenuItem squareMenuItem = new JMenuItem("Square", KeyEvent.VK_O); // create Square selection
-        shapeMenu.add(squareMenuItem); // add Square selection
+        JMenuItem rectangleMenuItem = new JMenuItem("Rectangle", KeyEvent.VK_O); // create Rectangle selection
+        shapeMenu.add(rectangleMenuItem); // add rectangle selection
+        rectangleMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (myTile tile : tileList) {
+                    tile.SetAllRectangle(); // sets tiles to oval
+                }
+                System.out.println("\nMosaicPlus Repainting...\n");
+                repaint(); // repainting
+            }
+        });
+        shapeMenu.add(rectangleMenuItem);
 
-        JMenuItem randomMenuItem = new JMenuItem("Random", KeyEvent.VK_O); // creates Random selection
-        shapeMenu.add(randomMenuItem); // add Random selection
+
+        JMenu colorMenu = new JMenu("Color"); // create ColorPicker Tab
+        colorMenu.setMnemonic(KeyEvent.VK_F);
+        menuBar.add(colorMenu); // add ColorPicker tab
+
+
+        JMenuItem redMenuItem = new JMenuItem("Red", KeyEvent.VK_O); // create red selection
+        colorMenu.add(redMenuItem); // add red selection
+        redMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (myTile tile : tileList) {
+                    tile.SetRedColor(); // sets tiles to red
+                }
+                System.out.println("\nMosaicPlus Repainting...\n");
+                repaint(); // repainting
+            }
+        });
+        colorMenu.add(redMenuItem);
+
+        JMenuItem greenMenuItem = new JMenuItem("Green", KeyEvent.VK_O); // create green selection
+        colorMenu.add(greenMenuItem); // add green selection
+        greenMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (myTile tile : tileList) {
+                    tile.SetGreenColor(); // sets tiles to green
+                }
+                System.out.println("\nMosaicPlus Repainting...\n");
+                repaint(); // repainting
+            }
+        });
+        colorMenu.add(greenMenuItem);
+
+        JMenuItem blueMenuItem = new JMenuItem("Blue", KeyEvent.VK_O); // create blue selection
+        colorMenu.add(blueMenuItem); // add blue selection
+        blueMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (myTile tile : tileList) {
+                    tile.SetBlueColor(); // sets tiles to blue
+                }
+                System.out.println("\nMosaicPlus Repainting...\n");
+                repaint(); // repainting
+            }
+        });
+        colorMenu.add(blueMenuItem);
 
         JMenu layoutMenu = new JMenu("Layout"); // create LayoutPicker Tab
         layoutMenu.setMnemonic(KeyEvent.VK_F);
@@ -351,9 +447,39 @@ class MosaicFrame extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         for (myTile tile : tileList) {
             tile.SetRandomValue();
+            MosaicFrame.play();
         }
         System.out.println("\nMosaicPlus Repainting...\n");
         repaint();
+    }
+
+    public static void play(){
+            try
+            {
+
+                Clip clip = AudioSystem.getClip();
+                clip.open(AudioSystem.getAudioInputStream(new File("C:\\Sound\\flyby.wav")));
+                clip.start();
+            }
+            catch (Exception exc)
+            {
+                exc.printStackTrace(System.out);
+            }
+    }
+
+    
+    public static void play2(){
+            try
+            {
+
+                Clip clip = AudioSystem.getClip();
+                clip.open(AudioSystem.getAudioInputStream(new File("C:\\Sound\\MouseDoubleClick.wav")));
+                clip.start();
+            }
+            catch (Exception exc)
+            {
+                exc.printStackTrace(System.out);
+            }
     }
 
 }
