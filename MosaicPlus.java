@@ -472,7 +472,7 @@ class MosaicFrame extends JFrame implements ActionListener{
             try
             {
 
-                Clip clip = AudioSystem.getClip();
+                Clip clip = AudioSystem.getClip(); //Entry point to audio system resources
                 clip.open(AudioSystem.getAudioInputStream(new File("C:\\Sound\\MouseDoubleClick.wav")));
                 clip.start();
             }
@@ -483,8 +483,6 @@ class MosaicFrame extends JFrame implements ActionListener{
     }
 
 }
-
-
 
 public class MosaicPlus {
     public static void main (String[] args) {
