@@ -47,38 +47,40 @@ class Face extends OvalDraw {
     public Face(int positionXIn, int positionYIn, int widthIn, int heightIn) {
         super(positionXIn, positionYIn, widthIn, heightIn);
 
-        int eyeHeight = heightIn / 7;
-        int eyeWidth = eyeHeight / 2;
-        int eye1PositionX = positionXIn + (widthIn / 2) - (eyeWidth / 2) - 5; 
-        int eye1PositionY = positionYIn + (heightIn / 3) - (eyeHeight / 2);
-        int eye2PositionX = positionXIn + (widthIn / 2) - (eyeWidth / 2) + 5; 
-        int eye2PositionY = positionYIn + (heightIn / 3) - (eyeHeight / 2);
+        int eyeHeight = 10;
+        int eyeWidth = 10;
+        int eye1PositionX = (widthIn / 2) - (eyeWidth / 2) - 5; 
+        int eye1PositionY = (heightIn / 3) - (eyeHeight / 2);
+        int eye2PositionX = (widthIn / 2) - (eyeWidth / 2) + 5; 
+        int eye2PositionY = (heightIn / 3) - (eyeHeight / 2);
 
-        eye1 = new OvalDraw(eye1PositionX, eye1PositionY, eyeWidth, eyeHeight);
-        eye2 = new OvalDraw(eye2PositionX, eye2PositionY, eyeWidth, eyeHeight);
+        eye1 = new OvalDraw(20, 10, eyeWidth, eyeHeight);
+        eye2 = new OvalDraw(50, 10, eyeWidth, eyeHeight);
 
         eye1.setDrawOvalFilledBlack();
         eye2.setDrawOvalFilledBlack();
 
         mouth = (int)(Math.random()*3);
     }
-
+    
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         eye1.paintComponent(g);
         eye2.paintComponent(g);
 
+        Graphics2D g2 = (Graphics2D)g;{
+        g2.setStroke(new BasicStroke(2));}
+        
         if (mouth == 0) { // 0=sad, 1=smile, 2=neutral
             g.drawArc(getPositionX()+5, getPositionY()+(getHeight() / 2), getWidth()-10, getHeight()-10, 45, 90);
         }
         else if(mouth == 1) {
-            g.drawArc(getPositionX()+5, getPositionY(), getWidth()-10, getHeight()-5, 180, 170);
+            g.drawArc(getPositionX() + (getWidth() / 50),  getPositionY(), getWidth(), getHeight() - 10, -45, -90);
         }
         else {
-            g.drawLine(getPositionX()+(getWidth()/4)/2, getPositionY()+(getHeight()/2), getPositionX()+(getWidth()+1)-5, getPositionY()+(getHeight()/2));
+            g.drawLine(getPositionX()+(getWidth()/4)/2+5, getPositionY()+(getHeight())-20, getPositionX()+(getWidth()+1)-20, getPositionY()+(getHeight())-20);
         }
-        Graphics2D g2 = (Graphics2D)g;{
-        g2.setStroke(new BasicStroke(20F));}
+
         eye1.paintComponent(g);
         eye2.paintComponent(g);
     }

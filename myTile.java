@@ -37,6 +37,9 @@ class myTile extends JPanel implements MouseListener  {
     private Face myFace;
     private boolean drawFace;
 
+    int panelWidth = getWidth();
+    int panelHeight = getHeight();
+
     myTile() {
         super();
         SetRandomValue();
@@ -44,7 +47,7 @@ class myTile extends JPanel implements MouseListener  {
         addMouseListener(this);
         randomShape = GetNumberBetween(0,1);
         drawFace = false;
-        myFace = new Face(16,10,40,40);     
+        myFace = new Face(0, 0, 0, 0);     
     }
 
         final public void SetAllOval() {
@@ -55,36 +58,37 @@ class myTile extends JPanel implements MouseListener  {
             randomShape = 0;
     }
 
-    final public void SetRandomValue() {
+    final public void SetRandomValue() { // sets color to random
         red = GetNumberBetween(0,255);
         green = GetNumberBetween(0,255);
         blue = GetNumberBetween(0,255);
-        setLetters();
+        setLetters(); // adds letter
+        drawFace = false;
     }
 
-    final public void SetRedColor() {
+    final public void SetRedColor() { // sets color to red
         red = GetNumberBetween(0,255);
         green = GetNumberBetween(0,0);
         blue = GetNumberBetween(0,0);
-        setLetters();
+        setLetters(); // adds letter
     }
 
-    final public void SetGreenColor() {
+    final public void SetGreenColor() { // sets color to green
         red = GetNumberBetween(0,0);
         green = GetNumberBetween(0,255);
         blue = GetNumberBetween(0,0);
-        setLetters();
+        setLetters(); // adds letter
     }
 
-    final public void SetBlueColor() {
+    final public void SetBlueColor() { // sets color to blue
         red = GetNumberBetween(0,0);
         green = GetNumberBetween(0,0);
         blue = GetNumberBetween(0,255);
-        setLetters();
+        setLetters(); // adds letter
     }
 
     final public void setLetters() {
-        ArrayList<String> letters = new ArrayList<>();
+        ArrayList<String> letters = new ArrayList<>(); // A-Z, a-z, 0-9, and some symbols are added
         letters.add("A");
         letters.add("B");
         letters.add("C");
@@ -111,6 +115,34 @@ class myTile extends JPanel implements MouseListener  {
         letters.add("X");
         letters.add("Y");
         letters.add("Z");
+
+        letters.add("a");
+        letters.add("b");
+        letters.add("c");
+        letters.add("d");
+        letters.add("e");
+        letters.add("f");
+        letters.add("g");
+        letters.add("h");
+        letters.add("i");
+        letters.add("j");
+        letters.add("k");
+        letters.add("l");
+        letters.add("m");
+        letters.add("n");
+        letters.add("o");
+        letters.add("p");
+        letters.add("q");
+        letters.add("r");
+        letters.add("s");
+        letters.add("t");
+        letters.add("u");
+        letters.add("v");
+        letters.add("w");
+        letters.add("x");
+        letters.add("y");
+        letters.add("z");
+
         letters.add("0");
         letters.add("1");
         letters.add("2");
@@ -121,37 +153,54 @@ class myTile extends JPanel implements MouseListener  {
         letters.add("8");
         letters.add("9");
 
-        int randomLetter = GetNumberBetween(0,34);
-        letter = letters.get(randomLetter);
+        letters.add("!");
+        letters.add("@");
+        letters.add("#");
+        letters.add("$");
+        letters.add("%");
+        letters.add("&");
+        letters.add("*");
+        letters.add("-");
+        letters.add("+");
+        letters.add("=");
+
+        int randomLetter = GetNumberBetween(0,70);
+        letter = letters.get(randomLetter); // sets letter
         }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        int panelWidth = getWidth();
+        int panelHeight = getHeight();
+        
+        
         System.out.println(this);
 
         if (drawFace) {
+            myFace.setWidth(panelWidth);
+            myFace.setHeight(panelHeight);
+
             myFace.paintComponent(g);
         }
         else {
-            int panelWidth = getWidth();
-            int panelHeight = getHeight();
+
 
             if (randomShape == 1) { // oval
                 g.setColor(new Color(red,green,blue));
-                g.fillOval(10, 10, panelWidth-15, panelHeight-10);
+                g.fillOval(1, 1, panelWidth, panelHeight);
             }
             else { // rectangle
             g.setColor(new Color(red,green,blue));
-            g.fillRect(10, 10, panelWidth, panelHeight);
+            g.fillRect(1, 1, panelWidth, panelHeight);
             }
 
-            g.setColor(new Color(GetContrastingColor(red), GetContrastingColor(green), GetContrastingColor(blue)));
+            g.setColor(new Color(GetContrastingColor(red), GetContrastingColor(green), GetContrastingColor(blue))); // sets letter color
             
             final int fontSize = 25;
-            g.setFont(new Font("Comic Sans MS", Font.BOLD, fontSize));
-            int stringX = (panelWidth / 2) - 5;
-            int stringY = (panelHeight / 2) + 15;
+            g.setFont(new Font("Comic Sans MS", Font.BOLD, fontSize)); // letter details
+            int stringX = (panelWidth / 2) - 10;
+            int stringY = (panelHeight / 2) + 10;
             g.drawString(letter, stringX, stringY);
         }   
     }
@@ -183,4 +232,3 @@ class myTile extends JPanel implements MouseListener  {
         return(myString);
     }
 }
-

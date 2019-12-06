@@ -45,8 +45,6 @@ class MosaicFrame extends JFrame implements ActionListener{
     private ArrayList<myTile> tileList;
     private MosaicFrame myMosaicFrame;
 
-
-
     public MosaicFrame(int layoutNum) {
         
         setBounds(40,40,900,700);
@@ -58,7 +56,7 @@ class MosaicFrame extends JFrame implements ActionListener{
         JPanel buttonPanel = new JPanel();
         contentPane.add(buttonPanel, BorderLayout.SOUTH);
 
-        JButton randomizeButton = new JButton("Randomize");
+        JButton randomizeButton = new JButton("Randomize"); // adds randomize button
         buttonPanel.add(randomizeButton);
         randomizeButton.addActionListener(this);
 
@@ -66,17 +64,17 @@ class MosaicFrame extends JFrame implements ActionListener{
         contentPane.add(myPanel, BorderLayout.CENTER);
 
 
-        if (layoutNum != 0) {
-            myPanel.setLayout(new GridLayout(layoutNum,layoutNum));
+        if (layoutNum != 0) { // default every frame = 0 until user clicks on new layout
+            myPanel.setLayout(new GridLayout(layoutNum,layoutNum)); // new grid layout based on user pref
 
             tileList = new ArrayList<myTile>();
-            for(int i = 0; i < layoutNum*layoutNum; i++) {
+            for(int i = 0; i < layoutNum*layoutNum; i++) { // creates a complete square
                 myTile tile = new myTile();
                 myPanel.add(tile);
                 tileList.add(tile);
             }
         } else {
-            myPanel.setLayout(new GridLayout(10,10));
+            myPanel.setLayout(new GridLayout(10,10)); // default layout 10x10
 
             tileList = new ArrayList<myTile>();
             for(int i = 0; i < 100; i++) {
@@ -95,13 +93,14 @@ class MosaicFrame extends JFrame implements ActionListener{
         fileMenu.setMnemonic(KeyEvent.VK_E);
         menuBar.add(fileMenu); // add File tab
         
-        JMenuItem newMenuItem = new JMenuItem("New", KeyEvent.VK_C); // create New selection
+        JMenuItem newMenuItem = new JMenuItem("New", KeyEvent.VK_C); // create New tab
         fileMenu.add(newMenuItem); // add new selection
         newMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int layoutNum = 0;
 
                 dispose();
+                System.out.println("\nMosaicPlus Repainting...\n");
                 MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
                 myMosaicFrame.setVisible(true);
             }
@@ -111,10 +110,10 @@ class MosaicFrame extends JFrame implements ActionListener{
         JMenuItem exitMenuItem = new JMenuItem("Exit", KeyEvent.VK_X); // create Exit tab
         exitMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                System.exit(0); // quits the program
             }
         });
-        fileMenu.add(exitMenuItem);
+        fileMenu.add(exitMenuItem); 
         
 
         JMenu shapeMenu = new JMenu("Shape"); // create ShapePicker Tab
@@ -128,7 +127,7 @@ class MosaicFrame extends JFrame implements ActionListener{
                 for (myTile tile : tileList) {
                     tile.SetAllOval(); // sets tiles to oval
                 }
-                System.out.println("\nMosaicPlus Repainting...\n");
+                System.out.println("\nMosaicPlus Repainting Shapes to Ovals...\n");
                 repaint(); // repainting
             }
         });
@@ -139,9 +138,9 @@ class MosaicFrame extends JFrame implements ActionListener{
         rectangleMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 for (myTile tile : tileList) {
-                    tile.SetAllRectangle(); // sets tiles to oval
+                    tile.SetAllRectangle(); // sets tiles to rectangles
                 }
-                System.out.println("\nMosaicPlus Repainting...\n");
+                System.out.println("\nMosaicPlus Repainting Shapes to Rectangles...\n");
                 repaint(); // repainting
             }
         });
@@ -152,7 +151,6 @@ class MosaicFrame extends JFrame implements ActionListener{
         colorMenu.setMnemonic(KeyEvent.VK_F);
         menuBar.add(colorMenu); // add ColorPicker tab
 
-
         JMenuItem redMenuItem = new JMenuItem("Red", KeyEvent.VK_O); // create red selection
         colorMenu.add(redMenuItem); // add red selection
         redMenuItem.addActionListener(new ActionListener() {
@@ -160,7 +158,7 @@ class MosaicFrame extends JFrame implements ActionListener{
                 for (myTile tile : tileList) {
                     tile.SetRedColor(); // sets tiles to red
                 }
-                System.out.println("\nMosaicPlus Repainting...\n");
+                System.out.println("\nMosaicPlus Repainting Colors to Reds...\n");
                 repaint(); // repainting
             }
         });
@@ -173,7 +171,7 @@ class MosaicFrame extends JFrame implements ActionListener{
                 for (myTile tile : tileList) {
                     tile.SetGreenColor(); // sets tiles to green
                 }
-                System.out.println("\nMosaicPlus Repainting...\n");
+                System.out.println("\nMosaicPlus Repainting Colors to Greens...\n");
                 repaint(); // repainting
             }
         });
@@ -186,7 +184,7 @@ class MosaicFrame extends JFrame implements ActionListener{
                 for (myTile tile : tileList) {
                     tile.SetBlueColor(); // sets tiles to blue
                 }
-                System.out.println("\nMosaicPlus Repainting...\n");
+                System.out.println("\nMosaicPlus Repainting Color to Blues...\n");
                 repaint(); // repainting
             }
         });
@@ -203,6 +201,7 @@ class MosaicFrame extends JFrame implements ActionListener{
                 int layoutNum = 6;
                 
                 dispose();
+                System.out.println("\nMosaicPlus Changing Layout to 6x6...\n");
                 MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
                 myMosaicFrame.setVisible(true);
             }
@@ -216,6 +215,7 @@ class MosaicFrame extends JFrame implements ActionListener{
                 int layoutNum = 7;
                 
                 dispose();
+                System.out.println("\nMosaicPlus Changing Layout to 7x7...\n");
                 MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
                 myMosaicFrame.setVisible(true);
             }
@@ -229,6 +229,7 @@ class MosaicFrame extends JFrame implements ActionListener{
                 int layoutNum = 8;
                 
                 dispose();
+                System.out.println("\nMosaicPlus Changing Layout to 8x8...\n");
                 MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
                 myMosaicFrame.setVisible(true);
             }
@@ -242,6 +243,7 @@ class MosaicFrame extends JFrame implements ActionListener{
                 int layoutNum = 9;
                 
                 dispose();
+                System.out.println("\nMosaicPlus Changing Layout to 1 9x9...\n");
                 MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
                 myMosaicFrame.setVisible(true);
             }
@@ -255,6 +257,7 @@ class MosaicFrame extends JFrame implements ActionListener{
                 int layoutNum = 10;
                 
                 dispose();
+                System.out.println("\nMosaicPlus Changing Layout to 10x10...\n");
                 MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
                 myMosaicFrame.setVisible(true);
             }
@@ -268,6 +271,7 @@ class MosaicFrame extends JFrame implements ActionListener{
                 int layoutNum = 11;
                 
                 dispose();
+                System.out.println("\nMosaicPlus Changing Layout to 11x11...\n");
                 MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
                 myMosaicFrame.setVisible(true);
             }
@@ -281,14 +285,12 @@ class MosaicFrame extends JFrame implements ActionListener{
                 int layoutNum = 12;
                 
                 dispose();
+                System.out.println("\nMosaicPlus Changing Layout to 12x12...\n");
                 MosaicFrame myMosaicFrame = new MosaicFrame(layoutNum);
                 myMosaicFrame.setVisible(true);
             }
         });
         layoutMenu.add(layout12MenuItem);
-        
-
-
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -296,37 +298,28 @@ class MosaicFrame extends JFrame implements ActionListener{
             tile.SetRandomValue();
         }
         System.out.println("\nMosaicPlus Repainting...\n");
-        play(); //Plays sound
+        play(); // Plays sound
         repaint();
     }
 
-    public static void play(){//Sound for clicking Randomize button
-            try
-            {
 
-                Clip clip = AudioSystem.getClip(); //Entry point to audio system resources
-                clip.open(AudioSystem.getAudioInputStream(new File("C:\\Sound\\Swoosh.wav")));
-                clip.start();
-            }
-            catch (Exception exc)
-            {
-                exc.printStackTrace(System.out);
-            }
+    public static void play(){ // Sound for clicking Randomize button
+        try {
+            Clip clip = AudioSystem.getClip(); //Entry point to audio system resources
+            clip.open(AudioSystem.getAudioInputStream(new File("C:\\Sound\\Swoosh.wav")));
+            clip.start();
+        } catch (Exception exc) {
+            exc.printStackTrace(System.out);
+        }
     }
-
-    
+ 
     public static void play2(){//Sound for clicking tiles
-            try
-            {
-
-                Clip clip = AudioSystem.getClip(); //Entry point to audio system resources
-                clip.open(AudioSystem.getAudioInputStream(new File("C:\\Sound\\MouseDoubleClick.wav")));
-                clip.start();
-            }
-            catch (Exception exc)
-            {
-                exc.printStackTrace(System.out);
-            }
+        try {
+            Clip clip = AudioSystem.getClip(); //Entry point to audio system resources
+            clip.open(AudioSystem.getAudioInputStream(new File("C:\\Sound\\MouseDoubleClick.wav")));
+            clip.start();
+        } catch (Exception exc) {
+            exc.printStackTrace(System.out);
+        }
     }
-
 }
