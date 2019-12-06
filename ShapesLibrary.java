@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (C) 2018 Eric Pogue.
+ * Copyright (C) 2019 Eric Pogue.
  * 
  * This file is a stand-alone library liscensed under the BSD-3-Clause
  * 

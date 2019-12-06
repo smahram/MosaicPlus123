@@ -1,13 +1,12 @@
-/*******************************************************************************
- * Copyright (C) 2019 Luciano Petrongelli & Sarah Mahram All rights reserved. 
+/******************************************************************************
+ * Copyright (C) 2019 Sarah Mahram and Luciano Petrongelli
  * 
- * This file is part of the MosaicPlus project.
+ * This file is a stand-alone library liscensed under the BSD-3-Clause
  * 
- * This file can not be copied and/or distributed without 
- * the express permission of Luciano Petrongelli & Sarah Mahram
+ * You are free to reuse the unmodified version of this file in your projects
+ * as long as you give credit to the library in your source code.  
  * 
- ******************************************************************************/
-
+ *****************************************************************************/
 
 
 public class MosaicPlus {

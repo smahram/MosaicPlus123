@@ -1,12 +1,12 @@
-/*******************************************************************************
- * Copyright (C) 2019 Luciano Petrongelli & Sarah Mahram All rights reserved. 
+/******************************************************************************
+ * Copyright (C) 2019 Sarah Mahram and Luciano Petrongelli
  * 
- * This file is part of the MosaicPlus project.
+ * This file is a stand-alone library liscensed under the BSD-3-Clause
  * 
- * This file can not be copied and/or distributed without 
- * the express permission of Luciano Petrongelli & Sarah Mahram
+ * You are free to reuse the unmodified version of this file in your projects
+ * as long as you give credit to the library in your source code.  
  * 
- ******************************************************************************/
+ *****************************************************************************/
 
 
 import javax.swing.JFrame;
@@ -306,7 +306,7 @@ class MosaicFrame extends JFrame implements ActionListener{
     public static void play(){ // Sound for clicking Randomize button
         try {
             Clip clip = AudioSystem.getClip(); //Entry point to audio system resources
-            clip.open(AudioSystem.getAudioInputStream(new File("C:\\Sound\\Swoosh.wav")));
+            clip.open(AudioSystem.getAudioInputStream(new File("C:\\Sound\\Swoosh.wav"))); //If you were to reuse, change path for your sound file.
             clip.start();
         } catch (Exception exc) {
             exc.printStackTrace(System.out);
@@ -316,7 +316,7 @@ class MosaicFrame extends JFrame implements ActionListener{
     public static void play2(){//Sound for clicking tiles
         try {
             Clip clip = AudioSystem.getClip(); //Entry point to audio system resources
-            clip.open(AudioSystem.getAudioInputStream(new File("C:\\Sound\\MouseDoubleClick.wav")));
+            clip.open(AudioSystem.getAudioInputStream(new File("C:\\Sound\\MouseDoubleClick.wav"))); //If you were to reuse, change path for your sound file.
             clip.start();
         } catch (Exception exc) {
             exc.printStackTrace(System.out);
